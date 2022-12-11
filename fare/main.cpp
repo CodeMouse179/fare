@@ -1,7 +1,8 @@
-﻿#define OLC_PGE_APPLICATION
-#include "olcPixelGameEngine.h"
-
+﻿#define SYSTEM_STRING_CONSOLE
 #include "String.hpp"
+
+#define OLC_PGE_APPLICATION
+#include "olcPixelGameEngine.h"
 
 class Example : public olc::PixelGameEngine
 {
