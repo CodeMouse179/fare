@@ -1,6 +1,8 @@
 ﻿#define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
 
+#include "String.hpp"
+
 class Example : public olc::PixelGameEngine
 {
 public:
@@ -25,7 +27,6 @@ public:
         return true;
     }
 };
-
 
 int main()
 {

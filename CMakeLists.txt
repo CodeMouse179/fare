@@ -6,6 +6,7 @@ project(fare)
 
 add_executable(f
     fare/olcPixelGameEngine.h
+    fare/String.hpp
     fare/main.cpp
 )
 
