@@ -13,6 +13,9 @@
 #if defined(SYSTEM_MACOS)
 #include "olcPGEMac.h"
 #endif
+//olcPGEX_TTF:
+#define OLC_PGEX_TTF
+#include "olcPGEX_TTF.h"
 
 class Example : public olc::PixelGameEngine
 {
@@ -41,6 +44,8 @@ public:
 
 int main()
 {
+    olc::Font::init();
+    
     Example demo;
     if (demo.Construct(15, 10, 32, 32))
         demo.Start();

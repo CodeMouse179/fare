@@ -8,6 +8,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows" OR ${CMAKE_SYSTEM_NAME} MATCHES "Linux
     add_executable(f
         fare/main.cpp
         fare/olcPixelGameEngine.h
+        fare/olcPGEX_TTF.h
         fare/String.hpp
         fare/System.hpp
     )
@@ -17,6 +18,7 @@ if(APPLE)
     add_executable(f
         fare/main.cpp
         fare/olcPGEMac.h
+        fare/olcPGEX_TTF.h
         fare/String.hpp
         fare/System.hpp
     )
@@ -34,6 +36,9 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
     find_library(PNG_LIBRARY png)
     target_link_libraries(f ${PNG_LIBRARY})
+
+    find_library(FREETYPE_LIBRARY freetype)
+    target_link_libraries(f ${FREETYPE_LIBRARY})
 endif()
 
 if(APPLE)
