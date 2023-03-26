@@ -1,6 +1,6 @@
 # MIT License
 
-Copyright (c) 2022 CodeMouse179(编程鼠鼠)
+Copyright (c) 2022-2023 CodeMouse179(编程鼠鼠)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@ SOFTWARE.
 
 # License (OLC-3)
 
-Copyright 2018-2022 OneLoneCoder.com
+Copyright 2018-2023 OneLoneCoder.com
 
 Redistribution and use in source and binary forms, with or without 
 modification, are permitted provided that the following conditions 
