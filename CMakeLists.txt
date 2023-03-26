@@ -13,7 +13,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows" OR ${CMAKE_SYSTEM_NAME} MATCHES "Linux
     )
 endif()
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "macOS")
+if(APPLE)
     add_executable(f
         fare/main.cpp
         fare/olcPGEMac.h
@@ -34,4 +34,37 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
     find_library(PNG_LIBRARY png)
     target_link_libraries(f ${PNG_LIBRARY})
+endif()
+
+if(APPLE)
+    find_library(CARBON_LIBRARY Carbon)
+    target_link_libraries(f ${CARBON_LIBRARY})
+
+    find_package(PNG REQUIRED)
+    include_directories(${PNG_INCLUDE_DIRS})
+    link_directories(${PNG_LIBRARY_DIRS})
+    add_definitions(${PNG_DEFINITIONS})
+    if(NOT PNG_FOUND)
+        message(ERROR " PNG not found!")
+    endif(NOT PNG_FOUND)
+    target_link_libraries(f ${PNG_LIBRARIES})
+
+    find_package(GLUT REQUIRED)
+    include_directories(${GLUT_INCLUDE_DIRS})
+    link_directories(${GLUT_LIBRARY_DIRS})
+    add_definitions(${GLUT_DEFINITIONS})
+    if(NOT GLUT_FOUND)
+        message(ERROR " GLUT not found!")
+    endif(NOT GLUT_FOUND)
+    target_link_libraries(f ${GLUT_LIBRARIES})
+
+    find_package(OpenGL REQUIRED)
+    include_directories(${OpenGL_INCLUDE_DIRS})
+    link_directories(${OpenGL_LIBRARY_DIRS})
+    add_definitions(${OpenGL_DEFINITIONS})
+    if(NOT OPENGL_FOUND)
+        message(ERROR " OPENGL not found!")
+    endif(NOT OPENGL_FOUND)
+    target_link_libraries(f ${OPENGL_LIBRARIES})
+
 endif()
