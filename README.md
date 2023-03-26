@@ -4,6 +4,8 @@
 
 - Thanks to ChatGPT for answering some technical questions.
 
-### Kernel
+## Kernel
 
-[olcPixelGameEngine](https://github.com/OneLoneCoder/olcPixelGameEngine)
+* [olcPixelGameEngine](https://github.com/OneLoneCoder/olcPixelGameEngine)
+
+* [olcPGEMac](https://github.com/MumflrFumperdink/olcPGEMac)
