@@ -6,5 +6,6 @@
   <ItemGroup>
     <ClInclude Include="olcPixelGameEngine.h" />
     <ClInclude Include="String.hpp" />
+    <ClInclude Include="System.hpp" />
   </ItemGroup>
 </Project>

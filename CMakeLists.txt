@@ -2,12 +2,13 @@ cmake_minimum_required(VERSION 3.11)
 
 set(CMAKE_CXX_STANDARD 17)
 
-project(fare)
+project(CodeMouse_fare)
 
 add_executable(f
+    fare/main.cpp
     fare/olcPixelGameEngine.h
     fare/String.hpp
-    fare/main.cpp
+    fare/System.hpp
 )
 
 find_library(X11_LIBRARY X11)

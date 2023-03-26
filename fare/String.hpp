@@ -1,73 +1,146 @@
-﻿//     +--------------------------------------------------------------------------------+
-//     |                                  String v1.26.3                                |
-//     |  Introduction : System.String in C++                                           |
-//     |  Modified Date : 2022/12/11                                                    |
-//     |  License : MIT                                                                 |
-//     |  Source Code : https://github.com/CodeMouse179/String                          |
-//     |  Readme : https://github.com/CodeMouse179/String/blob/main/README.md           |
-//     |                                                                                |
-//     |                             Designer : CodeMouse179                            |
-//     |  Email : codemouse179@gmail.com                                                |
-//     |  Github : https://github.com/CodeMouse179                                      |
-//     |  Bilibili : https://space.bilibili.com/3461577785215838                        |
-//     +--------------------------------------------------------------------------------+
+﻿//      +--------------------------------------------------------------------------------+
+//      |                                  String v1.43.0                                |
+//      |  Modified Date : 2023/3/25                                                     |
+//      |  Introduction : System.String in C++                                           |
+//      |  License : MIT                                                                 |
+//      |  Platform : Windows, Linux, macOS                                              |
+//      |  C++ Required Version : C++ 11                                                 |
+//      |  API Family : https://github.com/CodeMouse179/System                           |
+//      |  Repository : https://github.com/CodeMouse179/String                           |
+//      |                                                                                |
+//      |                             Designer : CodeMouse179                            |
+//      |  Email : codemouse179@gmail.com                                                |
+//      |  Github : https://github.com/CodeMouse179                                      |
+//      |  Bilibili : https://space.bilibili.com/3461577785215838                        |
+//      +--------------------------------------------------------------------------------+
 
 #ifndef SYSTEM_STRING_HPP
 #define SYSTEM_STRING_HPP
 
-//Versioning refer to Semantic Versioning 2.0.0 : https://semver.org/
-
 #define SYSTEM_STRING_VERSION_MAJOR 1
-#define SYSTEM_STRING_VERSION_MINOR 26
-#define SYSTEM_STRING_VERSION_PATCH 3
+#define SYSTEM_STRING_VERSION_MINOR 43
+#define SYSTEM_STRING_VERSION_PATCH 0
 #define SYSTEM_STRING_VERSION (SYSTEM_STRING_VERSION_MAJOR << 16 | SYSTEM_STRING_VERSION_MINOR << 8 | SYSTEM_STRING_VERSION_PATCH)
-#define SYSTEM_STRING_VERSION_STRING "1.26.3"
+#define SYSTEM_STRING_VERSION_STRING "1.43.0"
+
+//--------------------System.hpp START--------------------
+
+#define SYSTEM_VERSION_MAJOR 0
+#define SYSTEM_VERSION_MINOR 5
+#define SYSTEM_VERSION_PATCH 1
+#define SYSTEM_VERSION (SYSTEM_VERSION_MAJOR << 16 | SYSTEM_VERSION_MINOR << 8 | SYSTEM_VERSION_PATCH)
+#define SYSTEM_VERSION_STRING "0.5.1"
+
+//Microsoft C/C++ Compiler:
+#if defined(_MSC_VER) && !defined(__clang__)
+#define SYSTEM_MSC 1
+#endif
+
+//GNU C/C++ Compiler:
+#if defined(__GNUC__) && !defined(__clang__)
+#define SYSTEM_GCC 1
+#endif
+
+//Clang C/C++ Compiler:
+#if defined(__clang__)
+#define SYSTEM_CLA 1
+#endif
+
+//Standard C/C++ Compiler:
+#if defined(SYSTEM_GCC) || defined(SYSTEM_CLA)
+#define SYSTEM_SCC 1
+#endif
 
 //Windows Platform:
-#ifdef _WIN32
-#define SYSTEM_WINDOWS 1
-#endif
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN32)
 #define SYSTEM_WINDOWS 1
 #endif
 
 //Linux Platform:
-#ifdef __linux__
+#if defined(__linux__)
 #define SYSTEM_LINUX 1
 #endif
 
+//macOS Platform:
+#if defined(__APPLE__) && defined(__MACH__)
+#define SYSTEM_MACOS 1
+#elif defined(__APPLE__)
+#define SYSTEM_MACOS 2
+#endif
+
+//POSIX Platform:
+#if defined(SYSTEM_LINUX) || defined(SYSTEM_MACOS)
+#define SYSTEM_POSIX 1
+#endif
+
+//C Language(Microsoft C/C++ Compiler):
+#if defined(SYSTEM_MSC)
+#if defined(__STDC_VERSION__) && !defined(__cplusplus)
+#define SYSTEM_C 1
+#endif
+#if !defined(__cplusplus)
+#define SYSTEM_C 2
+#endif
+#endif
+
+//C Language(Standard C/C++ Compiler):
+#if defined(SYSTEM_SCC)
+#if defined(__STDC__) && !defined(__cplusplus)
+#define SYSTEM_C 1
+#endif
+#if !defined(__cplusplus)
+#define SYSTEM_C 2
+#endif
+#endif
+
+//C Version Definition(Microsoft C/C++ Compiler):
+#if defined(SYSTEM_MSC) && defined(SYSTEM_C)
+#if !defined(__STDC_VERSION__)
+#define SYSTEM_C_90 1
+#endif
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199409L)
+#define SYSTEM_C_90 1
+#endif
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+#define SYSTEM_C_99 1
+#endif
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
+#define SYSTEM_C_11 1
+#endif
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201710L)
+#define SYSTEM_C_17 1
+#endif
+#endif
+
+//C Version Definition(Standard C/C++ Compiler):
+#if defined(SYSTEM_SCC) && defined(SYSTEM_C)
+#if defined(__STDC__) && !defined(__STDC_VERSION__)
+#define SYSTEM_C_90 1
+#endif
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199409L)
+#define SYSTEM_C_90 1
+#endif
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+#define SYSTEM_C_99 1
+#endif
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
+#define SYSTEM_C_11 1
+#endif
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201710L)
+#define SYSTEM_C_17 1
+#endif
+#endif
+
 //C++ Language:
-#ifdef __cplusplus
+#if defined(__cplusplus)
 #define SYSTEM_CXX 1
 #endif
 
-//Windows Headers:
-#ifdef SYSTEM_WINDOWS
-//Enable UNICODE:
-#ifndef UNICODE
-#define UNICODE
+//C++ Version Definition(Windows):
+#if defined(SYSTEM_WINDOWS) && defined(_MSVC_LANG)
+#if (_MSVC_LANG >= 199711L)
+#define SYSTEM_CXX_98 1
 #endif
-//Enable _UNICODE:
-#ifndef _UNICODE
-#define _UNICODE
-#endif
-#include <Windows.h>
-//Disable warnings for MSVC++ 20:
-#ifdef _MSC_VER
-#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
-#endif
-#endif
-
-//Linux Headers:
-#ifdef SYSTEM_LINUX
-#include <locale>       //std::wstring_convert
-#include <unistd.h>     //read, write, STDIN_FILENO, STDOUT_FILENO
-#include <termio.h>     //tcgetattr, tcsetattr, termios
-#include <sys/ioctl.h>  //ioctl
-#endif
-
-//CXX version define:
-#ifdef SYSTEM_WINDOWS
 #if (_MSVC_LANG >= 201103L)
 #define SYSTEM_CXX_11 1
 #endif
@@ -77,8 +150,16 @@
 #if (_MSVC_LANG >= 201703L)
 #define SYSTEM_CXX_17 1
 #endif
+#if (_MSVC_LANG >= 202002L)
+#define SYSTEM_CXX_20 1
 #endif
-#ifdef SYSTEM_LINUX
+#endif
+
+//C++ Version Definition(POSIX):
+#if defined(SYSTEM_POSIX) && defined(__cplusplus)
+#if (__cplusplus >= 199711L)
+#define SYSTEM_CXX_98 1
+#endif
 #if (__cplusplus >= 201103L)
 #define SYSTEM_CXX_11 1
 #endif
@@ -88,23 +169,63 @@
 #if (__cplusplus >= 201703L)
 #define SYSTEM_CXX_17 1
 #endif
-#endif
-
-#ifdef __cpp_char8_t
+#if (__cplusplus >= 202002L)
 #define SYSTEM_CXX_20 1
 #endif
+#endif
 
-#ifdef __SYSTEM_STRING_ONLY
-#define SYSTEM_STRING_ONLY
+#if defined(SYSTEM_CXX)
+namespace System
+{
+}
+#endif
+
+//--------------------System.hpp END--------------------
+
+//--------------------Compiler START--------------------
+
+#ifdef _MSC_VER
+//Disable warnings for MSVC++ 20:
+#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
+//Enable UNICODE:
+#ifndef UNICODE
+#define UNICODE
+#endif
+//Enable _UNICODE:
+#ifndef _UNICODE
+#define _UNICODE
+#endif
+#endif
+
+//--------------------Compiler END--------------------
+
+//--------------------Include START--------------------
+
+//Windows Headers:
+#ifdef SYSTEM_WINDOWS
+//#define WIN32_LEAN_AND_MEAN //(optional)
+#include <Windows.h>    //...
+#endif
+
+//POSIX Headers:
+#ifdef SYSTEM_POSIX
+#include <unistd.h>     //read, write, STDIN_FILENO, STDOUT_FILENO
+#include <termios.h>    //tcgetattr, tcsetattr, termios
+#include <sys/ioctl.h>  //ioctl
 #endif
 
 //C++ Headers:
+#ifdef SYSTEM_CXX
 #include <string>       //std::basic_string, std::string, std::wstring, std::u8string, std::u16string, std::u32string
 #include <algorithm>    //std::equal
 #include <cctype>       //std::tolower, std::toupper
 #include <sstream>      //std::basic_ostringstream
 #include <vector>       //std::vector
-#include <codecvt>      //wstring_convert, codecvt_utf8, codecvt_utf16, codecvt_utf8_utf16
+#include <codecvt>      //std::wstring_convert, std::codecvt_utf8, std::codecvt_utf16, std::codecvt_utf8_utf16
+#include <locale>       //std::wstring_convert(POSIX)
+#endif
+
+//--------------------Include END--------------------
 
 //Ordinary character System::String class
 #define StringA System::String<char>
@@ -125,7 +246,7 @@
 #ifdef SYSTEM_WINDOWS
 #define StringT StringW
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
 #define StringT StringA
 #endif
 
@@ -142,7 +263,7 @@
 #define __U8c(c) u8##c
 #define U8c(c) __U8c(c)
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
 //g++ cannot compile u8'c' normally in C++14, requires C++17 or above
 #ifdef SYSTEM_CXX_17
 #define __U8c(c) u8##c
@@ -183,21 +304,24 @@
 #define __U32(s) U##s
 #define U32(s) __U32(s)
 
-//Windows:wchar_t, Linux:char
+//Windows:wchar_t, Linux/macOS:char
 #ifdef SYSTEM_WINDOWS
 #define T(s) W(s)
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
 #define T(s) s
 #endif
 
-//Windows:char/char8_t(C++20), Linux:char
+//Windows:char/char8_t(C++20), Linux/macOS:char
 #ifdef SYSTEM_WINDOWS
 #define T8(s) U8(s)
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
 #define T8(s) s
 #endif
+
+//TEXT:
+#define TEXT(s) U8(s)
 
 //Specifies the execution character set used for string and character literals.
 #ifdef SYSTEM_STRING_SET_UTF8
@@ -214,12 +338,94 @@
 #define FALSE_STRING "False"
 #endif
 
+#ifndef NEW_LINE_STRING
+#define NEW_LINE_STRING "\n"
+#endif
+
+#ifndef ERASE_STRING
+#define ERASE_STRING "\b \b"
+#endif
+
+#ifdef SYSTEM_STRING_CONSOLE
+
+//ReadLine Buffer Size:
 #ifndef SYSTEM_STRING_INPUT_BUFFER_SIZE
 #define SYSTEM_STRING_INPUT_BUFFER_SIZE 1024
 #endif
 
-#ifdef SYSTEM_STRING_CONSOLE
+//0x1B:
+#ifndef ESC
 #define ESC "\033"   //00011011 = 033 = 27 = 0x1b
+#endif
+
+//Virtual Terminal Format Strings:
+#ifndef USE_ALTERNATE_SCREEN_BUFFER_FORMAT
+#define USE_ALTERNATE_SCREEN_BUFFER_FORMAT "{0}[?1049h"
+#endif
+
+#ifndef USE_MAIN_SCREEN_BUFFER_FORMAT
+#define USE_MAIN_SCREEN_BUFFER_FORMAT "{0}[?1049l"
+#endif
+
+#ifndef SET_CURSOR_POSITION_FORMAT
+#define SET_CURSOR_POSITION_FORMAT "{0}[{1};{2}H"
+#endif
+
+#ifndef SET_RGB_COLOR_FORMAT
+#define SET_RGB_COLOR_FORMAT "{0}[{1};{2};{3};{4};{5}m"
+#endif
+
+#ifndef SET_DEFAULT_ATTRIBUTE_FORMAT
+#define SET_DEFAULT_ATTRIBUTE_FORMAT "{0}[{1}m"
+#endif
+
+#endif
+
+//Console Macro:
+#if defined(SYSTEM_STRING_CONSOLE) && !defined(SYSTEM_CONSOLE)
+#define Console StringA
+#endif
+
+//Exception Strings:
+#ifndef STRING_TO_BOOLEAN_EXCEPTION
+#define STRING_TO_BOOLEAN_EXCEPTION "String::ToBoolean Exception"
+#endif
+
+#ifndef STRING_READKEY_EXCEPTION
+#define STRING_READKEY_EXCEPTION "String::ReadKey Exception"
+#endif
+
+#ifndef STRING_NOT_IMPLEMENTED_EXCEPTION
+#define STRING_NOT_IMPLEMENTED_EXCEPTION "String::NotImplementedException"
+#endif
+
+//Characters:
+#ifndef SPACE_CHAR
+#define SPACE_CHAR ' '
+#endif
+
+#ifndef N_CHAR
+#define N_CHAR '\n'
+#endif
+
+#ifndef R_CHAR
+#define R_CHAR '\r'
+#endif
+
+#ifndef B_CHAR
+#define B_CHAR '\b'
+#endif
+
+#ifndef LEFT_CURLY_BRACKET
+#define LEFT_CURLY_BRACKET '{'
+#endif
+
+#ifndef RIGHT_CURLY_BRACKET
+#define RIGHT_CURLY_BRACKET '}'
+#endif
+
+#ifndef SYSTEM_STRING_BASE_BUFFER_SIZE
+#define SYSTEM_STRING_BASE_BUFFER_SIZE 16
 #endif
 
 namespace System
@@ -229,7 +435,7 @@ namespace System
     typedef std::wstring tstring;
     typedef wchar_t tchar;
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
     typedef std::string tstring;
     typedef char tchar;
 #endif
@@ -298,13 +504,17 @@ namespace System
         bool inited = false;
         bool success = false;
 
-#ifdef SYSTEM_LINUX
-    private:
-        termios oldInput;
-#endif
-
+#ifdef SYSTEM_WINDOWS
     public:
-        wchar_t TempChar = 0; //For UTF-16 Character
+        wchar_t TempChar = 0;   //For UTF-16 Character
+        int OutputCodePage = 0; //Output Code Page
+#endif
+#ifdef SYSTEM_POSIX
+    private:
+        termios oldInput;       //For String::KeyAvailable, String::ReadKey
+        termios input_state;    //For String::InitConsole, String::DeinitConsole
+        termios output_state;   //For String::InitConsole, String::DeinitConsole
+#endif
 
     public:
         void Init()
@@ -313,6 +523,7 @@ namespace System
 #ifdef SYSTEM_WINDOWS
             //Get Output Handle:
             HANDLE stdOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+            if (stdOutputHandle == NULL) return;
             if (stdOutputHandle == INVALID_HANDLE_VALUE) return;
 
             //Get Console Mode:
@@ -334,7 +545,7 @@ namespace System
             //Set success:
             this->success = (outputMode & ENABLE_VIRTUAL_TERMINAL_PROCESSING);
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
             int getRet = tcgetattr(STDIN_FILENO, &oldInput);
             if (getRet == -1)
             {
@@ -360,12 +571,48 @@ namespace System
             return Success();
         }
 
+        bool SetInput(bool nonBlocking, bool noEcho)
+        {
+#ifdef SYSTEM_WINDOWS
+            return false;
+#endif
+#ifdef SYSTEM_POSIX
+            termios input;
+            //Get terminal input setting:
+            int getRet = tcgetattr(STDIN_FILENO, &input);
+            if (getRet == -1) return false;
+            //Modify terminal input setting:
+            if (nonBlocking) input.c_lflag &= ~ICANON; //Non Blocking
+            if (noEcho) input.c_lflag &= ~ECHO;        //No Echo
+            //Set terminal input setting:
+            int setRet = tcsetattr(STDIN_FILENO, TCSANOW, &input);
+            if (setRet == -1) return false;
+            return true;
+#endif
+        }
+
         void ResetInput()
         {
 #ifdef SYSTEM_WINDOWS
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
             int setRet = tcsetattr(STDIN_FILENO, TCSANOW, &oldInput);
+#endif
+        }
+
+        void SaveIOState()
+        {
+#ifdef SYSTEM_POSIX
+            int ret1 = tcgetattr(STDIN_FILENO, &input_state);
+            int ret2 = tcgetattr(STDOUT_FILENO, &output_state);
+#endif
+        }
+
+        void LoadIOState()
+        {
+#ifdef SYSTEM_POSIX
+            int ret1 = tcsetattr(STDIN_FILENO, TCSANOW, &input_state);
+            int ret2 = tcsetattr(STDOUT_FILENO, TCSANOW, &output_state);
 #endif
         }
 
@@ -408,6 +655,22 @@ namespace System
         }
 
     public:
+        static T Chars(const std::basic_string<T>& s, int index)
+        {
+            return s[index];
+        }
+
+        static int Length(const std::basic_string<T>& s)
+        {
+            return s.size();
+        }
+
+        static int Length(const char* c_str)
+        {
+            return String::Length(std::string(c_str));
+        }
+
+    public:
         static std::basic_string<T> Clone(const std::basic_string<T>& s)
         {
             std::basic_string<T> instance = s;
@@ -417,6 +680,18 @@ namespace System
         static int Compare(const std::basic_string<T>& strA, const std::basic_string<T>& strB)
         {
             return strA.compare(strB);
+        }
+
+        static int Compare(const std::basic_string<T>& strA, const std::basic_string<T>& strB, bool ignoreCase)
+        {
+            if (ignoreCase)
+            {
+                return String::Compare(strA, strB, StringComparison::IgnoreCase);
+            }
+            else
+            {
+                return String::Compare(strA, strB);
+            }
         }
 
         static int Compare(const std::basic_string<T>& strA, const std::basic_string<T>& strB, System::StringComparison comparisonType)
@@ -434,6 +709,16 @@ namespace System
         static std::basic_string<T> Concat(const std::basic_string<T>& str0, const std::basic_string<T>& str1)
         {
             return str0 + str1;
+        }
+
+        static std::basic_string<T> Concat(const std::basic_string<T>& str0, const std::basic_string<T>& str1, const std::basic_string<T>& str2)
+        {
+            return str0 + str1 + str2;
+        }
+
+        static std::basic_string<T> Concat(const std::basic_string<T>& str0, const std::basic_string<T>& str1, const std::basic_string<T>& str2, const std::basic_string<T>& str3)
+        {
+            return str0 + str1 + str2 + str3;
         }
 
         static std::basic_string<T> Concat(const std::vector<std::basic_string<T>>& values)
@@ -460,7 +745,24 @@ namespace System
             return s.find(value) != std::string::npos;
         }
 
+        static bool Contains(const std::basic_string<T>& s, T value)
+        {
+            return s.find(value) != std::string::npos;
+        }
+
         static bool Contains(const std::basic_string<T>& s, const std::basic_string<T>& value, System::StringComparison comparisonType)
+        {
+            if (comparisonType == System::StringComparison::IgnoreCase)
+            {
+                return String::Contains(String::ToLower(s), String::ToLower(value));
+            }
+            else
+            {
+                return String::Contains(s, value);
+            }
+        }
+
+        static bool Contains(const std::basic_string<T>& s, T value, System::StringComparison comparisonType)
         {
             if (comparisonType == System::StringComparison::IgnoreCase)
             {
@@ -488,6 +790,13 @@ namespace System
             return true;
         }
 
+        static bool EndsWith(const std::basic_string<T>& s, T value)
+        {
+            if (s.empty() && value == 0) return true;
+            if (s.empty()) return false;
+            return s[s.size() - 1] == value;
+        }
+
         static bool EndsWith(const std::basic_string<T>& s, const std::basic_string<T>& value, System::StringComparison comparisonType)
         {
             if (comparisonType == System::StringComparison::IgnoreCase)
@@ -498,6 +807,18 @@ namespace System
                     if (String::ToLower(s[i]) != String::ToLower(value[j])) return false;
                 }
                 return true;
+            }
+            else
+            {
+                return String::EndsWith(s, value);
+            }
+        }
+
+        static bool EndsWith(const std::basic_string<T>& s, T value, System::StringComparison comparisonType)
+        {
+            if (comparisonType == System::StringComparison::IgnoreCase)
+            {
+                return String::EndsWith(String::ToLower(s), String::ToLower(value));
             }
             else
             {
@@ -612,6 +933,28 @@ namespace System
             }
         }
 
+        static int IndexOfAny(const std::basic_string<T>& s, const std::vector<T>& anyOf)
+        {
+            return String::IndexOfAny(s, anyOf, 0, anyOf.size());
+        }
+
+        static int IndexOfAny(const std::basic_string<T>& s, const std::vector<T>& anyOf, int startIndex)
+        {
+            return String::IndexOfAny(s, anyOf, startIndex, anyOf.size() - startIndex);
+        }
+
+        static int IndexOfAny(const std::basic_string<T>& s, const std::vector<T>& anyOf, int startIndex, int count)
+        {
+            if (startIndex < 0 || startIndex > anyOf.size() - 1) return -1;
+            //TODO:more index check
+            for (int i = startIndex; i < startIndex + count; i++)
+            {
+                int pos = String::IndexOf(s, anyOf[i]);
+                if (pos != -1) return pos;
+            }
+            return -1;
+        }
+
         static std::basic_string<T> Insert(const std::basic_string<T>& s, int startIndex, const std::basic_string<T>& value)
         {
             if (startIndex < 0 || startIndex > s.size()) return s;
@@ -619,6 +962,32 @@ namespace System
             std::basic_string<T> part1 = String::Substring(s, 0, startIndex);
             std::basic_string<T> part2 = String::Substring(s, startIndex);
             return part1 + value + part2;
+        }
+
+        //EXTRA:
+        static std::basic_string<T> Insert(const std::basic_string<T>& s, int startIndex, T value)
+        {
+            if (startIndex < 0 || startIndex > s.size()) return s;
+            if (startIndex == s.size()) return s + value;
+            std::basic_string<T> part1 = String::Substring(s, 0, startIndex);
+            std::basic_string<T> part2 = String::Substring(s, startIndex);
+            return part1 + value + part2;
+        }
+
+        static bool IsNullOrEmpty(const std::basic_string<T>& value)
+        {
+            if (value.empty()) return true;
+            return false;
+        }
+
+        static bool IsNullOrWhiteSpace(const std::basic_string<T>& value)
+        {
+            if (value.empty()) return true;
+            for (int i = 0; i < value.size(); i++)
+            {
+                if (value[i] != (T)SPACE_CHAR) return false;
+            }
+            return true;
         }
 
         static std::basic_string<T> Join(const std::basic_string<T>& separator, const std::vector<std::basic_string<T>>& values)
@@ -637,6 +1006,32 @@ namespace System
         static std::basic_string<T> Join(T separator, const std::vector<std::basic_string<T>>& values)
         {
             return String::Join(String::ToString(separator), values);
+        }
+
+        template<typename... Types>
+        static std::basic_string<T> Join(const std::basic_string<T>& separator, Types... args)
+        {
+            std::basic_ostringstream<T> boss;
+#ifdef SYSTEM_CXX_17
+            (String::JoinHelper(boss, separator, args), ...); //C++17
+#else
+            int arr[] = { (String::JoinHelper(boss, separator, args), 0)... }; //C++11
+#endif
+            if (boss.str().empty()) return String::Empty();
+            return String::Substring(boss.str(), 0, boss.str().size() - separator.size());
+        }
+
+        template<typename... Types>
+        static std::basic_string<T> Join(T separator, Types... args)
+        {
+            std::basic_ostringstream<T> boss;
+#ifdef SYSTEM_CXX_17
+            (String::JoinHelper(boss, separator, args), ...); //C++17
+#else
+            int arr[] = { (String::JoinHelper(boss, separator, args), 0)... }; //C++11
+#endif
+            if (boss.str().empty()) return String::Empty();
+            return String::Substring(boss.str(), 0, boss.str().size() - 1);
         }
 
         static int LastIndexOf(const std::basic_string<T>& s, const std::basic_string<T>& value)
@@ -671,6 +1066,60 @@ namespace System
             {
                 return String::LastIndexOf(s, value);
             }
+        }
+
+        static int LastIndexOfAny(const std::basic_string<T>& s, const std::vector<T>& anyOf)
+        {
+            return String::LastIndexOfAny(s, anyOf, 0, anyOf.size());
+        }
+
+        static int LastIndexOfAny(const std::basic_string<T>& s, const std::vector<T>& anyOf, int startIndex)
+        {
+            return String::LastIndexOfAny(s, anyOf, startIndex, anyOf.size() - startIndex);
+        }
+
+        static int LastIndexOfAny(const std::basic_string<T>& s, const std::vector<T>& anyOf, int startIndex, int count)
+        {
+            if (startIndex < 0 || startIndex > anyOf.size() - 1) return -1;
+            //TODO:more index check
+            for (int i = startIndex; i < startIndex + count; i++)
+            {
+                int pos = String::LastIndexOf(s, anyOf[i]);
+                if (pos != -1) return pos;
+            }
+            return -1;
+        }
+
+        static std::basic_string<T> PadLeft(const std::basic_string<T>& s, int totalWidth)
+        {
+            return String::PadLeft(s, totalWidth, (T)SPACE_CHAR);
+        }
+
+        static std::basic_string<T> PadLeft(const std::basic_string<T>& s, int totalWidth, T paddingChar)
+        {
+            if (totalWidth <= s.size()) return s;
+            std::basic_string<T> str = s;
+            for (int i = 0; i < totalWidth - s.size(); i++)
+            {
+                str.insert(0, 1, paddingChar);
+            }
+            return str;
+        }
+
+        static std::basic_string<T> PadRight(const std::basic_string<T>& s, int totalWidth)
+        {
+            return String::PadRight(s, totalWidth, (T)SPACE_CHAR);
+        }
+
+        static std::basic_string<T> PadRight(const std::basic_string<T>& s, int totalWidth, T paddingChar)
+        {
+            if (totalWidth <= s.size()) return s;
+            std::basic_string<T> str = s;
+            for (int i = 0; i < totalWidth - s.size(); i++)
+            {
+                str.insert(str.size(), 1, paddingChar);
+            }
+            return str;
         }
 
         static std::basic_string<T> Remove(const std::basic_string<T>& s, int startIndex)
@@ -768,6 +1217,65 @@ namespace System
             }
         }
 
+        static std::basic_string<T> ReplaceLineEndings(const std::basic_string<T>& s)
+        {
+            std::basic_string<T> str;
+#ifdef SYSTEM_WINDOWS
+            for (int i = 0; i < s.size(); i++)
+            {
+                //POSIX NewLine => Windows NewLine:
+                if (s[i] == (T)N_CHAR)
+                {
+                    //It is Windows NewLine!
+                    if (i - 1 >= 0 && s[i - 1] == (T)R_CHAR)
+                    {
+                        str += s[i];
+                    }
+                    else
+                    {
+                        str += (T)R_CHAR;
+                        str += (T)N_CHAR;
+                    }
+                }
+                else
+                {
+                    str += s[i];
+                }
+            }
+#endif
+#ifdef SYSTEM_POSIX
+            for (int i = 0; i < s.size(); i++)
+            {
+                //Windows NewLine => POSIX NewLine:
+                if (s[i] == (T)R_CHAR)
+                {
+                    //It is Windows NewLine!
+                    if (i + 1 < s.size() && s[i + 1] == (T)N_CHAR)
+                    {
+                        str += (T)N_CHAR;
+                    }
+                    else
+                    {
+                        str += s[i];
+                    }
+                }
+                else
+                {
+                    str += s[i];
+                }
+            }
+#endif
+            return str;
+        }
+
+        static std::basic_string<T> ReplaceLineEndings(const std::basic_string<T>& s, const std::basic_string<T>& replacementText)
+        {
+            throw STRING_NOT_IMPLEMENTED_EXCEPTION;
+            std::basic_string<T> str;
+            //TODO
+            return str;
+        }
+
 #ifndef SYSTEM_STRING_ONLY
         static std::string Reverse(const std::string& s)
         {
@@ -781,7 +1289,7 @@ namespace System
                 std::wstring wstr = String::StringToWstring(s, StringEncoding::ANSI);
                 return String::WstringToString(String::Reverse(wstr), StringEncoding::ANSI);
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
                 std::string str;
                 for (int i = s.size() - 1; i >= 0; i--)
                 {
@@ -888,6 +1396,13 @@ namespace System
             return true;
         }
 
+        static bool StartsWith(const std::basic_string<T>& s, T value)
+        {
+            if (s.empty() && value == 0) return true;
+            if (s.empty()) return false;
+            return s[0] == value;
+        }
+
         static bool StartsWith(const std::basic_string<T>& s, const std::basic_string<T>& value, System::StringComparison comparisonType)
         {
             if (comparisonType == System::StringComparison::IgnoreCase)
@@ -905,6 +1420,18 @@ namespace System
             }
         }
 
+        static bool StartsWith(const std::basic_string<T>& s, T value, System::StringComparison comparisonType)
+        {
+            if (comparisonType == System::StringComparison::IgnoreCase)
+            {
+                return String::StartsWith(String::ToLower(s), String::ToLower(value));
+            }
+            else
+            {
+                return String::StartsWith(s, value);
+            }
+        }
+
         static std::basic_string<T> Substring(const std::basic_string<T>& s, int startIndex)
         {
             return s.substr(startIndex);
@@ -914,6 +1441,34 @@ namespace System
         {
             return s.substr(startIndex, length);
         }
+
+#ifndef SYSTEM_STRING_ONLY
+        static bool ToBoolean(const std::basic_string<T>& s)
+        {
+            return String::ToBoolean(s, System::StringComparison::None);
+        }
+
+        static bool ToBoolean(const std::basic_string<T>& s, System::StringComparison comparisonType)
+        {
+            std::string normalString;
+            for (int i = 0; i < s.size(); i++)
+            {
+                normalString += (char)s[i];
+            }
+            if (String::Equals(normalString, TRUE_STRING, comparisonType))
+            {
+                return true;
+            }
+            else if (String::Equals(normalString, FALSE_STRING, comparisonType))
+            {
+                return false;
+            }
+            else
+            {
+                throw STRING_TO_BOOLEAN_EXCEPTION;
+            }
+        }
+#endif
 
         static std::vector<T> ToCharArray(const std::basic_string<T>& s)
         {
@@ -937,6 +1492,18 @@ namespace System
             return charArray;
         }
 
+#ifndef SYSTEM_STRING_ONLY
+        static int ToInt32(const std::basic_string<T>& s)
+        {
+            std::string normalString;
+            for (int i = 0; i < s.size(); i++)
+            {
+                normalString += (char)s[i];
+            }
+            return std::stoi(normalString);
+        }
+#endif
+
         static std::basic_string<T> ToLower(const std::basic_string<T>& s)
         {
             std::basic_string<T> lower;
@@ -958,6 +1525,26 @@ namespace System
         {
             std::basic_string<T> s;
             s.push_back(c);
+            return s;
+        }
+
+        static std::basic_string<T> ToString(bool value)
+        {
+            std::basic_string<T> s;
+            if (value)
+            {
+                for (int i = 0; i < std::string(TRUE_STRING).size(); i++)
+                {
+                    s.push_back((T)TRUE_STRING[i]);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < std::string(FALSE_STRING).size(); i++)
+                {
+                    s.push_back((T)FALSE_STRING[i]);
+                }
+            }
             return s;
         }
 
@@ -1007,7 +1594,7 @@ namespace System
 
         static std::basic_string<T> Trim(const std::basic_string<T>& s)
         {
-            return String::Trim(s, (T)' ');
+            return String::Trim(s, (T)SPACE_CHAR);
         }
 
         //注意:trimString仅应该存放单个字符
@@ -1027,7 +1614,7 @@ namespace System
 
         static std::basic_string<T> TrimEnd(const std::basic_string<T>& s)
         {
-            return String::TrimEnd(s, (T)' ');
+            return String::TrimEnd(s, (T)SPACE_CHAR);
         }
 
         //注意:trimString仅应该存放单个字符
@@ -1047,7 +1634,7 @@ namespace System
 
         static std::basic_string<T> TrimStart(const std::basic_string<T>& s)
         {
-            return String::TrimStart(s, (T)' ');
+            return String::TrimStart(s, (T)SPACE_CHAR);
         }
 
 #ifndef SYSTEM_STRING_ONLY
@@ -1071,9 +1658,15 @@ namespace System
             delete[] wstr;
             return result;
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
             return s;
 #endif
+        }
+
+        //receive utf-8 string
+        static std::wstring StringToWstring(const std::string& s)
+        {
+            return String::To_Wstring(s);
         }
 
         static std::string WstringToString(const System::tstring& s, StringEncoding encoding)
@@ -1095,9 +1688,15 @@ namespace System
             delete[] str;
             return result;
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
             return s;
 #endif
+        }
+
+        //return utf-8 string
+        static std::string WstringToString(const std::wstring& s)
+        {
+            return String::To_String(s);
         }
 
         //receive utf-8/ansi string
@@ -1115,7 +1714,7 @@ namespace System
             }
             return result;
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
             return s;
 #endif
         }
@@ -1126,21 +1725,9 @@ namespace System
 #ifdef SYSTEM_WINDOWS
             return String::WstringToString(s, StringEncoding::UTF8);
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
             return s;
 #endif
-        }
-
-        //receive utf-8 string
-        static std::wstring StringToWstring(const std::string& s)
-        {
-            return String::To_Wstring(s);
-        }
-
-        //return utf-8 string
-        static std::string WstringToString(const std::wstring& s)
-        {
-            return String::To_String(s);
         }
 
         static u8str StringToU8string(const std::string& s)
@@ -1167,7 +1754,7 @@ namespace System
             std::u16string str(reinterpret_cast<const char16_t*>(s.c_str()));
             return str;
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
             return String::To_UTF16(s);
 #endif
         }
@@ -1178,7 +1765,7 @@ namespace System
             std::wstring str(reinterpret_cast<const wchar_t*>(s.c_str()));
             return str;
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
             return String::To_Wstring(s);
 #endif
         }
@@ -1188,7 +1775,7 @@ namespace System
 #ifdef SYSTEM_WINDOWS
             return String::To_UTF32(s);
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
             std::u32string str(reinterpret_cast<const char32_t*>(s.c_str()));
             return str;
 #endif
@@ -1199,7 +1786,7 @@ namespace System
 #ifdef SYSTEM_WINDOWS
             return String::To_Wstring(s);
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
             std::wstring str(reinterpret_cast<const wchar_t*>(s.c_str()));
             return str;
 #endif
@@ -1644,7 +2231,7 @@ namespace System
 #ifdef SYSTEM_WINDOWS
             return true;
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
             return String::IsValidUTF16String(s);
 #endif
         }
@@ -1679,7 +2266,7 @@ namespace System
             }
             return charCount;
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
             return String::UTF16StringCharCount(s);
 #endif
         }
@@ -1690,7 +2277,7 @@ namespace System
             std::wstring str(reinterpret_cast<const wchar_t*>(s.c_str()));
             return String::UTF16CharCount(str);
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
             int charCount = 0;
             for (int i = 0; i < s.size(); i++)
             {
@@ -1740,7 +2327,7 @@ namespace System
             }
             return charArray;
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
             return String::UTF16StringToCharArray(s);
 #endif
         }
@@ -1751,7 +2338,7 @@ namespace System
             std::wstring str(reinterpret_cast<const wchar_t*>(s.c_str()));
             return String::UTF16ToCharArray(str);
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
             std::vector<UTF16Char> charArray;
             for (int i = 0; i < s.size(); i++)
             {
@@ -2039,7 +2626,7 @@ namespace System
             for (int i = 0; i < s.size(); i++)
             {
                 //'0' = 48, '9' = 57
-                if (s[i] < (T)'0' || s[i] > (T)'9')
+                if (s[i] < (T)48 || s[i] > (T)57)
                 {
                     return false;
                 }
@@ -2052,17 +2639,98 @@ namespace System
             if (s.empty()) return true;
             for (int i = 0; i < s.size(); i++)
             {
-                if (s[i] != (T)' ') return false;
+                if (s[i] != (T)SPACE_CHAR) return false;
             }
             return true;
         }
+
+        //void* => int
+        static int Void2Int(void* p)
+        {
+#ifdef SYSTEM_CXX
+            int result = static_cast<int>(reinterpret_cast<std::intptr_t>(p));
+            return result;
+#else
+            int result = (int)p;
+            return result;
+#endif
+        }
 #endif
 
-#ifdef SYSTEM_STRING_CONSOLE
+#if defined(SYSTEM_STRING_CONSOLE) && !defined(SYSTEM_STRING_ONLY)
+    public: //Console Function 0:
+
+        //format must be UTF-8 Encoding. Implementation see String::Format
+        template<typename... Types>
+        static bool ConsoleSendCommand(const std::string& format, Types... args)
+        {
+            std::ostringstream boss;
+            std::string clone = String::Clone(format);
+#ifdef SYSTEM_CXX_17
+            (String::FormatHelper(boss, clone, args), ...); //C++17
+#else
+            int arr[] = { (String::FormatHelper(boss, clone, args), 0)... }; //C++11
+#endif
+            boss << clone;
+            std::string cmd = boss.str();
+            bool cmdSuccess = String::Write(cmd);
+            return cmdSuccess;
+        }
+
+        static bool InitConsole()
+        {
+            bool init_success = true;
+#ifdef SYSTEM_WINDOWS
+            //Maybe should support Legacy ConHost V1 on Windows.
+            //Get current console output cp and save it.
+            UINT consoleOutputCP = GetConsoleOutputCP();
+            BuiltInConsole::Instance().OutputCodePage = (int)consoleOutputCP;
+            //After setting this, you can use WriteConsoleA/WriteFile with Unicode.
+            BOOL set_output_cp = SetConsoleOutputCP(CP_UTF8);
+            init_success &= set_output_cp;
+#endif
+#ifdef SYSTEM_POSIX
+            //For POSIX platform, string encoding is UTF-8 by default.
+            BuiltInConsole::Instance().SaveIOState();
+#endif
+            //enable alternate screen buffer:
+            bool send_cmd_success = String::ConsoleSendCommand(U8(USE_ALTERNATE_SCREEN_BUFFER_FORMAT), U8(ESC));
+            //reset cursor position:
+            bool set_cursor_pos_success = String::SetCursorPosition(0, 0);
+            //return:
+            init_success &= send_cmd_success;
+            init_success &= set_cursor_pos_success;
+            return init_success;
+        }
+
+        static bool DeinitConsole()
+        {
+            bool deinit_success = true;
+#ifdef SYSTEM_WINDOWS
+            //Maybe should support Legacy ConHost V1 on Windows.
+            //Restore console output cp:
+            if (BuiltInConsole::Instance().OutputCodePage != 0)
+            {
+                BOOL set_output_cp = SetConsoleOutputCP(BuiltInConsole::Instance().OutputCodePage);
+                deinit_success &= set_output_cp;
+            }
+#endif
+#ifdef SYSTEM_POSIX
+            //For POSIX platform, string encoding is UTF-8 by default.
+            BuiltInConsole::Instance().LoadIOState();
+#endif
+            //enable main screen buffer:
+            bool send_cmd_success = String::ConsoleSendCommand(U8(USE_MAIN_SCREEN_BUFFER_FORMAT), U8(ESC));
+            //return:
+            deinit_success &= send_cmd_success;
+            return deinit_success;
+        }
+
     public: //Console Function 1:
 
         static bool KeyAvailable()
         {
+            BuiltInConsole::Instance().NoProblem();
 #ifdef SYSTEM_WINDOWS
             auto IsModKey = [](WORD virtualKey)
             {
@@ -2098,34 +2766,16 @@ namespace System
                 }
             }
 #endif
-#ifdef SYSTEM_LINUX
-            //Get terminal I/O setting:
-            termios io;
-            int getRet = tcgetattr(STDIN_FILENO, &io);
-            if (getRet == -1)
-            {
-                return false;
-            }
-            //Modify terminal I/O setting:
-            io.c_lflag &= ~ICANON; //Non Blocking
-            io.c_lflag &= ~ECHO;   //No Echo
-            //Set terminal I/O setting:
-            int setRet = tcsetattr(STDIN_FILENO, TCSANOW, &io);
-            if (setRet == -1)
-            {
-                BuiltInConsole::Instance().ResetInput();
-                return false;
-            }
+#ifdef SYSTEM_POSIX
+            //Set terminal input setting:
+            bool setInputSuccess = BuiltInConsole::Instance().SetInput(true, true);
+            if (!setInputSuccess) return false;
             //ioctl:
             int byteswaiting;
             int ret = ioctl(STDIN_FILENO, FIONREAD, &byteswaiting);
-            if (ret == -1)
-            {
-                BuiltInConsole::Instance().ResetInput();
-                return false;
-            }
-            //Dont reset terminal I/O setting here, we should invoke ReadKey after this function.
-            return byteswaiting > 0;
+            //Reset terminal input setting:
+            BuiltInConsole::Instance().ResetInput();
+            return (ret != -1 && byteswaiting > 0);
 #endif
         }
 
@@ -2147,6 +2797,7 @@ namespace System
 
         static BuiltInConsoleKey ReadKey(bool intercept)
         {
+            BuiltInConsole::Instance().NoProblem();
             BuiltInConsoleKey key;
             key.CodePoint = -1;
 #ifdef SYSTEM_WINDOWS
@@ -2208,23 +2859,23 @@ namespace System
                     }
                     else
                     {
-                        throw "String::ReadKey ERROR!!!";
+                        throw STRING_READKEY_EXCEPTION;
                     }
                 }
             }
             //\r => \n:
-            if (key.CodePoint == '\r')
+            if (key.CodePoint == R_CHAR)
             {
-                key.CodePoint = '\n';
+                key.CodePoint = N_CHAR;
             }
             //Echo character:
             if (!intercept)
             {
                 std::string u8string = String::CodePointToUTF8(key.CodePoint);
                 //Handle backspace:
-                if (key.CodePoint == '\b')
+                if (key.CodePoint == B_CHAR)
                 {
-                    String::Write(U8("\b \b"));
+                    String::Write(U8(ERASE_STRING));
                 }
                 else
                 {
@@ -2232,26 +2883,12 @@ namespace System
                 }
             }
 #endif
-#ifdef SYSTEM_LINUX
-            //Get terminal I/O setting:
-            termios io;
-            int getRet = tcgetattr(STDIN_FILENO, &io);
-            if (getRet == -1)
-            {
-                return key;
-            }
-            //Modify terminal I/O setting:
-            io.c_lflag &= ~ICANON; //Non Blocking
-            io.c_lflag &= ~ECHO;   //No Echo
-            //Set terminal I/O setting:
-            int setRet = tcsetattr(STDIN_FILENO, TCSANOW, &io);
-            if (setRet == -1)
-            {
-                BuiltInConsole::Instance().ResetInput();
-                return key;
-            }
+#ifdef SYSTEM_POSIX
+            //Set terminal input setting:
+            bool setInputSuccess = BuiltInConsole::Instance().SetInput(true, true);
+            if (!setInputSuccess) return key;
             //Alloc buffer:
-            const int bufferSize = 8;
+            const int bufferSize = 4;       //Unicode character at most takes 4 bytes to represent.
             char buffer[bufferSize + 1];    //bufferSize + 1 because we need '\0' at end of this string.
             buffer[bufferSize] = 0;         //add '\0' at the end.
             //Read terminal:
@@ -2277,9 +2914,9 @@ namespace System
             if (!intercept)
             {
                 //Handle backspace:
-                if (key.CodePoint == '\b')
+                if (key.CodePoint == B_CHAR)
                 {
-                    String::Write(U8("\b \b"));
+                    String::Write(U8(ERASE_STRING));
                 }
                 else
                 {
@@ -2314,7 +2951,7 @@ namespace System
                 str = String::WstringToString(std::wstring(buffer), System::StringEncoding::UTF8);
             }
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
 #if SYSTEM_STRING_INPUT_BUFFER_SIZE >= 2048
             const int bufferSize = SYSTEM_STRING_INPUT_BUFFER_SIZE;
 #else
@@ -2346,7 +2983,7 @@ namespace System
                     break;
                 }
                 //Backspace:
-                if (key.CodePoint == '\b')
+                if (key.CodePoint == B_CHAR)
                 {
                     if (charArray.size() > 0)
                     {
@@ -2355,7 +2992,7 @@ namespace System
                     }
                 }
                 //Finish:
-                if (key.CodePoint == '\r' || key.CodePoint == '\n')
+                if (key.CodePoint == R_CHAR || key.CodePoint == N_CHAR)
                 {
                     break;
                 }
@@ -2363,6 +3000,25 @@ namespace System
             }
             if (charArray.size() > 0) return String::CodePointToUTF8(charArray);
             return StringA::Empty();
+        }
+
+        //zero-based position
+        static bool SetCursorPosition(int left, int top)
+        {
+#ifdef SYSTEM_WINDOWS
+            HANDLE stdOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+            if (stdOutputHandle == NULL) return false;
+            if (stdOutputHandle == INVALID_HANDLE_VALUE) return false;
+            COORD position;
+            position.X = left;
+            position.Y = top;
+            return SetConsoleCursorPosition(stdOutputHandle, position);
+#endif
+#ifdef SYSTEM_POSIX
+            //For POSIX platform, string encoding is UTF-8 by default.
+            return String::ConsoleSendCommand(SET_CURSOR_POSITION_FORMAT, ESC, top + 1, left + 1);
+#endif
+            return false;
         }
 
         //std::string must be UTF-8 Encoding.
@@ -2380,17 +3036,80 @@ namespace System
             BOOL success = WriteConsoleW(stdOutputHandle, str.c_str(), str.size(), &written, NULL);
             return success;
 #endif
-#ifdef SYSTEM_LINUX
+#ifdef SYSTEM_POSIX
             ssize_t ret = write(STDOUT_FILENO, s.c_str(), s.size());
             return ret != -1;
 #endif
             return false;
         }
 
+        template<typename Type>
+        static bool Write(Type value)
+        {
+            std::basic_ostringstream<T> boss;
+            boss << value;
+            return String::Write(boss.str());
+        }
+
+        static bool WriteLine()
+        {
+            return String::Write(U8(NEW_LINE_STRING));
+        }
+
         //std::string must be UTF-8 Encoding.
         static bool WriteLine(const std::string& s)
         {
-            return String::Write(s + U8("\n"));
+            return String::Write(s + U8(NEW_LINE_STRING));
+        }
+
+        template<typename Type>
+        static bool WriteLine(Type value)
+        {
+            std::basic_ostringstream<T> boss;
+            boss << value;
+            return String::Write(boss.str() + U8(NEW_LINE_STRING));
+        }
+
+        static int WindowWidth()
+        {
+#ifdef SYSTEM_WINDOWS
+            HANDLE stdOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+            if (stdOutputHandle == NULL) return 0;
+            if (stdOutputHandle == INVALID_HANDLE_VALUE) return 0;
+            CONSOLE_SCREEN_BUFFER_INFO csbi;
+            BOOL success = GetConsoleScreenBufferInfo(stdOutputHandle, &csbi);
+            if (!success) return 0;
+            int windowWidth = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+            return windowWidth;
+#endif
+#ifdef SYSTEM_POSIX
+            struct winsize window;
+            int ret = ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
+            if (ret == 0) return window.ws_col;
+            return 0;
+#endif
+            return 0;
+        }
+
+        static int WindowHeight()
+        {
+#ifdef SYSTEM_WINDOWS
+            HANDLE stdOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+            if (stdOutputHandle == NULL) return 0;
+            if (stdOutputHandle == INVALID_HANDLE_VALUE) return 0;
+            CONSOLE_SCREEN_BUFFER_INFO csbi;
+            BOOL success = GetConsoleScreenBufferInfo(stdOutputHandle, &csbi);
+            if (!success) return 0;
+            int windowHeight = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+            return windowHeight;
+#endif
+#ifdef SYSTEM_POSIX
+            struct winsize window;
+            int ret = ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
+            if (ret == 0) return window.ws_row;
+            return 0;
+#endif
+            return 0;
         }
 
     public: //Extension Console Function 1:
@@ -2398,8 +3117,8 @@ namespace System
         {
             if (BuiltInConsole::Instance().NoProblem())
             {
-                std::string format1 = StringA::Format(U8("{0}[{1};{2};{3};{4};{5}m"), U8(ESC), 38, 2, (int)r, (int)g, (int)b);
-                std::string format2 = StringA::Format(U8("{0}[{1}m"), U8(ESC), 0);
+                std::string format1 = StringA::Format(U8(SET_RGB_COLOR_FORMAT), U8(ESC), 38, 2, (int)r, (int)g, (int)b);
+                std::string format2 = StringA::Format(U8(SET_DEFAULT_ATTRIBUTE_FORMAT), U8(ESC), 0);
                 return StringA::Write(format1 + s + format2);
             }
             else
@@ -2412,9 +3131,9 @@ namespace System
         {
             if (BuiltInConsole::Instance().NoProblem())
             {
-                std::string format1 = StringA::Format(U8("{0}[{1};{2};{3};{4};{5}m"), U8(ESC), 38, 2, (int)r1, (int)g1, (int)b1);
-                std::string format2 = StringA::Format(U8("{0}[{1};{2};{3};{4};{5}m"), U8(ESC), 48, 2, (int)r2, (int)g2, (int)b2);
-                std::string format3 = StringA::Format(U8("{0}[{1}m"), U8(ESC), 0);
+                std::string format1 = StringA::Format(U8(SET_RGB_COLOR_FORMAT), U8(ESC), 38, 2, (int)r1, (int)g1, (int)b1);
+                std::string format2 = StringA::Format(U8(SET_RGB_COLOR_FORMAT), U8(ESC), 48, 2, (int)r2, (int)g2, (int)b2);
+                std::string format3 = StringA::Format(U8(SET_DEFAULT_ATTRIBUTE_FORMAT), U8(ESC), 0);
                 return StringA::Write(format1 + format2 + s + format3);
             }
             else
@@ -2425,13 +3144,54 @@ namespace System
 
         static bool WriteLine(const std::string& s, color r, color g, color b)
         {
-            return String::Write(s + U8("\n"), r, g, b);
+            return String::Write(s + U8(NEW_LINE_STRING), r, g, b);
         }
 
         static bool WriteLine(const std::string& s, color r1, color g1, color b1, color r2, color g2, color b2)
         {
-            return String::Write(s + U8("\n"), r1, g1, b1, r2, g2, b2);
+            return String::Write(s + U8(NEW_LINE_STRING), r1, g1, b1, r2, g2, b2);
         }
+
+        //SetConsoleOutputCP = 65001(Windows)
+        static bool WriteU8(const std::string& s)
+        {
+            if (s.empty()) return false;
+            //Do not check if s is utf-8 string.
+#ifdef SYSTEM_WINDOWS
+            HANDLE stdOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+            if (stdOutputHandle == NULL) return false;
+            if (stdOutputHandle == INVALID_HANDLE_VALUE) return false;
+            DWORD written;
+            //BOOL success = WriteFile(stdOutputHandle, s.c_str(), s.size(), &written, NULL);
+            BOOL success = WriteConsoleA(stdOutputHandle, s.c_str(), s.size(), &written, NULL);
+            return success;
+#endif
+#ifdef SYSTEM_POSIX
+            return String::Write(s);
+#endif
+            return false;
+        }
+
+        //SetConsoleOutputCP = 65001(Windows)
+        static bool WriteLineU8(const std::string& s)
+        {
+            return String::WriteU8(s + U8(NEW_LINE_STRING));
+        }
+
+#ifdef SYSTEM_CXX_20
+        static bool WriteU8(const std::u8string& s)
+        {
+            std::string str = String::U8stringToString(s);
+            return String::WriteU8(str);
+        }
+
+        static bool WriteLineU8(const std::u8string& s)
+        {
+            std::string str = String::U8stringToString(s);
+            return String::WriteLineU8(str);
+        }
+#endif
+
 #endif
 
     private:
@@ -2444,14 +3204,33 @@ namespace System
         template<typename Type>
         static void FormatHelper(std::basic_ostringstream<T>& boss, std::basic_string<T>& s, const Type& value)
         {
-            std::size_t openBracket = s.find((T)'{');
+            std::size_t openBracket = s.find((T)LEFT_CURLY_BRACKET);
             if (openBracket == std::string::npos) return;
-            std::size_t closeBracket = s.find((T)'}', openBracket + 1);
+            std::size_t closeBracket = s.find((T)RIGHT_CURLY_BRACKET, openBracket + 1);
             if (closeBracket == std::string::npos) return;
             boss << s.substr(0, openBracket) << value;
             s = s.substr(closeBracket + 1);
         }
+
+        template<typename Type>
+        static void JoinHelper(std::basic_ostringstream<T>& boss, const std::basic_string<T>& separator, const Type& value)
+        {
+            boss << value << separator;
+        }
+
+        template<typename Type>
+        static void JoinHelper(std::basic_ostringstream<T>& boss, T separator, const Type& value)
+        {
+            boss << value << separator;
+        }
     };
+
+    template<typename CharType>
+    class StringBase
+    {
+    };
+
+    typedef StringBase<char> string;
 }
 
 #endif
