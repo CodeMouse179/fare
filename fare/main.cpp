@@ -1,7 +1,11 @@
-﻿#define OLC_PGE_APPLICATION
-#include "olcPixelGameEngine.h"
+﻿#define NOMINMAX
+//System API:
 #include "System.hpp"
 #include "String.hpp"
+//olcPixelGameEngine:
+#undef T
+#define OLC_PGE_APPLICATION
+#include "olcPixelGameEngine.h"
 
 class Example : public olc::PixelGameEngine
 {
