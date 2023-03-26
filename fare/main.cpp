@@ -2,10 +2,17 @@
 //System API:
 #include "System.hpp"
 #include "String.hpp"
-//olcPixelGameEngine:
 #undef T
+//olcPixelGameEngine impl:
 #define OLC_PGE_APPLICATION
+//olcPixelGameEngine(origin):
+#if defined(SYSTEM_WINDOWS) || defined(SYSTEM_LINUX)
 #include "olcPixelGameEngine.h"
+#endif
+//olcPixelGameEngine(macOS):
+#if defined(SYSTEM_MACOS)
+#include "olcPGEMac.h"
+#endif
 
 class Example : public olc::PixelGameEngine
 {

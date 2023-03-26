@@ -14,7 +14,12 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows" OR ${CMAKE_SYSTEM_NAME} MATCHES "Linux
 endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "macOS")
-
+    add_executable(f
+        fare/main.cpp
+        fare/olcPGEMac.h
+        fare/String.hpp
+        fare/System.hpp
+    )
 endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
